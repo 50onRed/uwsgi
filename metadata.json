@@ -1,0 +1,31 @@
+{
+  "name": "uwsgi",
+  "description": "Installs/Configures uWSGI",
+  "long_description": "Description\n===========\n\nInstalls and configures uWSGI.\nuWSGI is a fast, self-healing and developer/sysadmin-friendly application container server coded in pure C.\n\nRequirements\n============\n\nPlatform\n--------\n* Debian, Ubuntu\n\nCookbooks\n---------\n* python\n* runit\n\nDefinitions\n==========\n\nuwsgi_service\n  :home_path        - path to the app you want to run with uWSGI, default to \"/var/www/app\"\n  :pid_path         - path to pid file for uWSGI, default to \"/var/run/uwsgi-app.pid\"\n  :host             - hostname to run uWSGI on, default to \"127.0.0.1\"\n  :port             - port number to run uWSGI on, default to 8080\n  :worker_processes - number of uWSGI workers, default to 2, should probably be relative to the number of CPUs\n  :app              - app to run on uwsgi, passed to --module parameted of uWSGI, default to \"main:app\"\n\nUsage\n=====\n\nAdd the default uWSGI recipe to install uwsgi through pip.\nDefine a uWSGI service with a definition like so:\n\nuwsgi_service \"myapp\" do\n  home_path \"/var/www/app\"\n  pid_path \"/var/run/uwsgi-app.pid\"\n  host \"127.0.0.1\"\n  port 8080\n  worker_processes 2\n  app \"flask:app\"\nend\n",
+  "maintainer": "50onRed",
+  "maintainer_email": "dev@50onred.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+    "python": ">= 0.0.0",
+    "runit": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.0.4"
+}
