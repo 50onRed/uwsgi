@@ -16,5 +16,5 @@ end
 
 python_pip "uwsgi" do
   action :install
-  version "1.2.4"
+  version node["uwsgi"]["version"]
 end
