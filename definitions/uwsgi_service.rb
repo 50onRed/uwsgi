@@ -22,7 +22,8 @@ define :uwsgi_service,
     :close_on_exec => false,
     :lazy => false,
     :disable_logging => false,
-    :threads => nil do
+    :threads => nil,
+    :harakiri => nil do
   include_recipe "runit"
 
   # need to assign params to local vars as we can't pass params to nested definitions
@@ -42,6 +43,7 @@ define :uwsgi_service,
   extra_params += " --close-on-exec" if params[:close_on_exec]
   extra_params += " --disable-logging" if params[:disable_logging]
   extra_params += " --threads %d" % (threads) if params[:threads]
+  extra_params += " --harakiri %d" % (harakiri) if params[:harakiri]
   
   runit_service "uwsgi-#{params[:name]}" do
     template_name "uwsgi"
