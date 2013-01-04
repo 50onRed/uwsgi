@@ -42,8 +42,8 @@ define :uwsgi_service,
   extra_params += " --die-on-term" if params[:die_on_term]
   extra_params += " --close-on-exec" if params[:close_on_exec]
   extra_params += " --disable-logging" if params[:disable_logging]
-  extra_params += " --threads %d" % (threads) if params[:threads]
-  extra_params += " --harakiri %d" % (harakiri) if params[:harakiri]
+  extra_params += " --threads %d" % (params[:threads]) if params[:threads]
+  extra_params += " --harakiri %d" % (params[:harakiri]) if params[:harakiri]
   
   runit_service "uwsgi-#{params[:name]}" do
     template_name "uwsgi"
