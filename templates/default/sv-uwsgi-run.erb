@@ -8,4 +8,10 @@ if [ -f $PID ]; then kill -9 `cat $PID`; rm $PID; fi
 
 cd $ROOT
 exec 2>&1
-exec $UWSGI --socket <%= @options[:host] %>:<%= @options[:port] %> --uid <%= @options[:uid] %> --gid <%= @options[:gid] %> --pidfile $PID<%= @options[:extra_params] %> --processes=<%= @options[:worker_processes] %> -w <%= @options[:app] %>
+exec $UWSGI \
+--socket <%= @options[:host] %>:<%= @options[:port] %> \
+--uid <%= @options[:uid] %> \
+--gid <%= @options[:gid] %> \
+--pidfile $PID \
+--processes=<%= @options[:worker_processes] %><%= @options[:extra_params] %> \
+-w <%= @options[:app] %>
