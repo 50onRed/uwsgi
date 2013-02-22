@@ -54,7 +54,8 @@ define :uwsgi_service,
   extra_params += " --emperor %s" % [params[:emperor]] if params[:emperor]
   
   runit_service "uwsgi-#{params[:name]}" do
-    template_name "uwsgi"
+    run_template_name "uwsgi"
+    log_template_name "uwsgi"
     cookbook "uwsgi"
     options ({
       :home_path => home_path,
