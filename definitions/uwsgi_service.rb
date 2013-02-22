@@ -56,7 +56,6 @@ define :uwsgi_service,
   runit_service "uwsgi-#{params[:name]}" do
     template_name "uwsgi"
     cookbook "uwsgi"
-    run_restart false
     options ({
       :home_path => home_path,
       :pid_path => pid_path,
