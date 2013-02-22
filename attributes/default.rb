@@ -1,1 +1,1 @@
-default['uwsgi']['version'] = "1.4.4"
+default['uwsgi']['version'] = "1.4.5"
