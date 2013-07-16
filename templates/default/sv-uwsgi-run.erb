@@ -9,6 +9,8 @@ if [ -f $PID ]; then kill -9 `cat $PID`; rm $PID; fi
 cd $ROOT
 exec 2>&1
 exec $UWSGI \
+--env LC_ALL="en_US.UTF-8" \
+--env LANG="en_US.UTF-8" \
 --socket <%= @options[:host] %>:<%= @options[:port] %> \
 --uid <%= @options[:uid] %> \
 --gid <%= @options[:gid] %> \
