@@ -1,3 +1,4 @@
+name             "uwsgi"
 maintainer       "50onRed"
 maintainer_email "dev@50onred.com"
 license          "All rights reserved"
