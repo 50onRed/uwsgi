@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+directory node['uwsgi']['emperor']['conf_dir'] do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
 case node['uwsgi']['emperor']['service']
 when "upstart"
   template "/etc/init/uwsgi.conf" do
@@ -25,6 +31,7 @@ when "upstart"
     group "root"
     mode "0644"
     variables :config_dir => node['uwsgi']['emperor']['conf_dir']
+    notifies [:stop, :start], "service[uwsgi]"
   end
 
   service "uwsgi" do

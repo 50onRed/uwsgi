@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "uswgi::install_#{node['usgi']['install_method']}"
+include_recipe "uwsgi::install_#{node['uwsgi']['install_method']}"

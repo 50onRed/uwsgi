@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "uswsgi::_common_install"
+include_recipe "uwsgi::_common_install"
 
 include_recipe "python"
 

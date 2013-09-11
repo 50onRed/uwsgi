@@ -20,4 +20,5 @@ action :install do
       parameters new_resource.parameters
       notifies :reload, "service[uwsgi]"
     end
+  end
 end
