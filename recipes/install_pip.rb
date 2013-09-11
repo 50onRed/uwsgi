@@ -7,17 +7,18 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "uswsgi::_common_install"
+
 include_recipe "python"
 
-case node[:platform_family]
-when 'debian'
-	# needed for uwsgi starting with version 1.3
-	package "libssl0.9.8" do
-	  action :upgrade
-	end
-end
-
-python_pip "uwsgi" do
-  action :install
-  version node["uwsgi"]["version"]
+case node["uwsgi"]["version"]
+when "lts"
+  python_pip "uwsgi" do
+    package_name "http://projects.unbit.it/downloads/uwsgi-lts.tar.gz"
+  end
+else
+  python_pip "uwsgi" do
+    action :install
+    version node["uwsgi"]["version"] if node["uwsgi"]["version"]
+  end
 end
