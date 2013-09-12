@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: uwsgi
-# Recipe:: default
+# Recipe:: _common
 #
 # Copyright 2013, Guilhem Lettron <guilhem@lettron.fr>
 #
@@ -17,4 +17,13 @@
 # limitations under the License.
 #
 
-include_recipe "uwsgi::install_#{node['uwsgi']['install_method']}"
+#group node['uwsgi']['group'] do
+#  system true
+#end
+
+#user node['uwsgi']['user'] do
+#  supports :manage_home => true
+#  gid node['uwsgi']['group']
+#  home node['uwsgi']['path']
+#  system true
+#end

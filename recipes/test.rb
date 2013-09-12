@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: uwsgi
-# Recipe:: default
+# Recipe:: test
 #
 # Copyright 2013, Guilhem Lettron <guilhem@lettron.fr>
 #
@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "uwsgi::install_#{node['uwsgi']['install_method']}"
+uwsgi "toto" do
+  parameters "uwsgi" => { "master" => "true", "treads" => "20", "chdir" => "/srv" }
+end

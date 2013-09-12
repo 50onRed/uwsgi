@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: uwsgi
-# Recipe:: default
+# Recipe:: _common_install
 #
 # Copyright 2013, Guilhem Lettron <guilhem@lettron.fr>
 #
@@ -17,4 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe "uwsgi::install_#{node['uwsgi']['install_method']}"
+case node['platform_family']
+when 'debian'
+  # needed for uwsgi starting with version 1.3
+  package "libssl0.9.8"
+end
