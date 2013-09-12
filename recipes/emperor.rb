@@ -31,7 +31,8 @@ when "upstart"
     group "root"
     mode "0644"
     variables :config_dir => node['uwsgi']['emperor']['conf_dir']
-    notifies [:stop, :start], "service[uwsgi]"
+    notifies :stop, "service[uwsgi]"
+    notifies :start, "service[uwsgi]"
   end
 
   service "uwsgi" do
