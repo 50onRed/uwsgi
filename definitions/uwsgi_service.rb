@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: uwsgi
-# Definition:: uwsgi_service
-#
-# Copyright 2012, 50onRed
-#
-# All rights reserved - Do Not Redistribute
-#
-
 define :uwsgi_service, 
     :home_path => "/var/www/app", 
     :pid_path => "/var/run/uwsgi-app.pid", 

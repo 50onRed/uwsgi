@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: uwsgi
-# Recipe:: install_pip
-#
-# Copyright 2012, 50onRed
-#
-# All rights reserved - Do Not Redistribute
-#
-
 include_recipe "uwsgi::_common_install"
 
 include_recipe "python"
