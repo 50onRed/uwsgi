@@ -1,9 +1,9 @@
-define :uwsgi_service, 
-    :home_path => "/var/www/app", 
-    :pid_path => "/var/run/uwsgi-app.pid", 
-    :host => "127.0.0.1", 
-    :port => 8080, 
-    :worker_processes => 2, 
+define :uwsgi_service,
+    :home_path => "/var/www/app",
+    :pid_path => "/var/run/uwsgi-app.pid",
+    :host => "127.0.0.1",
+    :port => 8080,
+    :worker_processes => 2,
     :app => "main:app",
     :uid => "www-data",
     :gid => "www-data",
@@ -19,7 +19,9 @@ define :uwsgi_service,
     :emperor => nil,
     :vacuum => false,
     :enable_threads => false,
-    :buffer_size => nil do
+    :buffer_size => nil,
+    :config_file => nil,
+    :config_type => :ini do
   include_recipe "runit"
 
   # need to assign params to local vars as we can't pass params to nested definitions
@@ -31,6 +33,8 @@ define :uwsgi_service,
   app = params[:app]
   uid = params[:uid]
   gid = params[:gid]
+  config_file = params[:config_file]
+  config_type = params[:config_type]
   extra_params = ""
   extra_params += " --master" if params[:master]
   extra_params += " --lazy" if params[:lazy]
@@ -45,7 +49,7 @@ define :uwsgi_service,
   extra_params += " --stats %s" % [params[:stats]] if params[:stats]
   extra_params += " --emperor %s" % [params[:emperor]] if params[:emperor]
   extra_params += " --buffer-size %s" % [params[:buffer_size]] if params[:buffer_size]
-  
+
   runit_service "uwsgi-#{params[:name]}" do
     run_template_name "uwsgi"
     log_template_name "uwsgi"
@@ -59,7 +63,9 @@ define :uwsgi_service,
       :app => app,
       :uid => uid,
       :gid => gid,
-      :extra_params => extra_params
+      :extra_params => extra_params,
+      :config_file => config_file,
+      :config_type => config_type
     })
   end
 end
