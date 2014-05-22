@@ -21,22 +21,23 @@ Definitions
 
 `uwsgi_service`
 
--  `:home_path`        - path to the app you want to run with uWSGI, default to `"/var/www/app"`
--  `:pid_path`         - path to pid file for uWSGI, default to `"/var/run/uwsgi-app.pid"`
--  `:config_file`      - path to configuration file, default to `nil`, overrides the below options if not `nil`
--  `:config_type`      - configuration file type, default to `:ini`
--  `:host`             - hostname to run uWSGI on, default to `"127.0.0.1"`
--  `:port`             - port number to run uWSGI on, default to `8080`
--  `:worker_processes` - number of uWSGI workers, default to `2`, should probably be relative to the number of CPUs
--  `:app`              - app to run on uwsgi, passed to --module parameted of uWSGI, default to `"main:app"`
--  `:uid`              - user-id to run uwsgi under, default to `"www-data"`
--  `:gid`              - group-id to run uwsgi under, default to `"www-data"`
--  `:master`           - enable uwsgi master process, default to `false`
--  `:no_orphans`       - kill workers without a master process, default to `false`
--  `:die_on_term`      - make uwsgi die on term signal, default to `false`
--  `:close_on_exec`    - set close-on-exec flag on uwsgi socket, default to `false`
--  `:lazy`             - load application after worker fork(), default to `false`
--  `:disable_logging`  - disable uwsgi request logging, default to `false`
+-  `:home_path`         - path to the app you want to run with uWSGI, default to `"/var/www/app"`
+-  `:pid_path`          - path to pid file for uWSGI, default to `"/var/run/uwsgi-app.pid"`
+-  `:config_file`       - path to configuration file, default to `nil`, overrides the below options if not `nil`
+-  `:config_type`       - configuration file type, default to `:ini`
+-  `:host`              - hostname to run uWSGI on, default to `"127.0.0.1"`
+-  `:port`              - port number to run uWSGI on, default to `8080`
+-  `:worker_processes`  - number of uWSGI workers, default to `2`, should probably be relative to the number of CPUs
+-  `:app`               - app to run on uwsgi, passed to --module parameted of uWSGI, default to `"main:app"`
+-  `:uid`               - user-id to run uwsgi under, default to `"www-data"`
+-  `:gid`               - group-id to run uwsgi under, default to `"www-data"`
+-  `:master`            - enable uwsgi master process, default to `false`
+-  `:no_orphans`        - kill workers without a master process, default to `false`
+-  `:die_on_term`       - make uwsgi die on term signal, default to `false`
+-  `:close_on_exec`     - set close-on-exec flag on uwsgi socket, default to `false`
+-  `:lazy`              - load application after worker fork(), default to `false`
+-  `:disable_logging`   - disable uwsgi request logging, default to `false`
+-  `:start_immediately` - decide whether you want to start the service immediately or later manually, default to `true`
 
 Usage
 =====
