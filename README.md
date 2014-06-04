@@ -62,7 +62,7 @@ You can also use a preexisting uWSGI configuration like so:
 uwsgi_service "myapp" do
   home_path "/var/www/app"
   pid_path "/var/run/uwsgi-app.pid"
-  config_path "/etc/uwsgi/myapp.yaml"
+  config_file "/etc/uwsgi/myapp.yaml"
   config_type :yaml
 end
 ```
