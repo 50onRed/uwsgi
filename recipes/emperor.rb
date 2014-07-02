@@ -2,6 +2,7 @@ directory node['uwsgi']['emperor']['conf_dir'] do
   owner node['uwsgi']['emperor']['user']
   group node['uwsgi']['emperor']['group']
   mode "0755"
+  recursive true
 end
 
 case node['uwsgi']['emperor']['service']
