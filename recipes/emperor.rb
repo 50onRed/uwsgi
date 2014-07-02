@@ -9,8 +9,8 @@ case node['uwsgi']['emperor']['service']
 when "upstart"
   template "/etc/init/uwsgi.conf" do
     source "uwsgi_upstart.erb"
-    owner node['uwsgi']['emperor']['user']
-    group node['uwsgi']['emperor']['group']
+    owner 'root'
+    group 'root'
     mode "0644"
     variables ({
         'config_dir' => node['uwsgi']['emperor']['conf_dir'],
