@@ -2,8 +2,11 @@
 
 description "uWSGI Emperor"
 start on runlevel [2345]
-stop on runlevel [06]
+stop on runlevel [016]
+
+setuid <%= @user %>
+setgid <%= @group %>
 
 respawn
 
-exec uwsgi --master --die-on-term --emperor <%= @config_dir %>
+exec <%= @uwsgi_bin %> <%= @uwsgi_opts %> <%= @config_dir %>
