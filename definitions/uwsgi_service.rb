@@ -22,6 +22,7 @@ define :uwsgi_service,
     :buffer_size => nil,
     :config_file => nil,
     :config_type => :ini,
+    :uwsgi_bin => '/usr/local/bin/uwsgi',
     :start_immediately => true do
   include_recipe "runit"
 
@@ -51,6 +52,7 @@ define :uwsgi_service,
   extra_params += " --stats %s" % [params[:stats]] if params[:stats]
   extra_params += " --emperor %s" % [params[:emperor]] if params[:emperor]
   extra_params += " --buffer-size %s" % [params[:buffer_size]] if params[:buffer_size]
+  uwsgi_bin = params[:uwsgi_bin]
 
   runit_service "uwsgi-#{params[:name]}" do
     run_template_name "uwsgi"
@@ -67,6 +69,7 @@ define :uwsgi_service,
       :uid => uid,
       :gid => gid,
       :extra_params => extra_params,
+      :uwsgi_bin => uwsgi_bin,
       :config_file => config_file,
       :config_type => config_type
     })
