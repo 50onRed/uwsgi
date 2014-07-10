@@ -22,6 +22,7 @@ define :uwsgi_service,
     :buffer_size => nil,
     :config_file => nil,
     :config_type => :ini,
+    :uwsgi_bin => '/usr/local/bin/uwsgi',
     :start_immediately => true do
   include_recipe "runit"
 
@@ -67,6 +68,7 @@ define :uwsgi_service,
       :uid => uid,
       :gid => gid,
       :extra_params => extra_params,
+      :uwsgi_bin => uwsgi_bin,
       :config_file => config_file,
       :config_type => config_type
     })
