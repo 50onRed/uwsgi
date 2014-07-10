@@ -1,8 +1,9 @@
 #!/bin/sh
 
-UWSGI=/usr/local/bin/uwsgi
+UWSGI=<%= @options[:uwsgi_bin] %>
 ROOT=<%= @options[:home_path] %>
 PID=<%= @options[:pid_path] %>
+SOCKET=<%= @options[:host] %>:<%= @options[:port] %>
 
 if [ -f $PID ]; then kill -9 `cat $PID`; rm $PID; fi
 
@@ -12,7 +13,7 @@ exec $UWSGI \<% if @options[:config_file] -%>
 --<%= @options[:config_type] %> <%= @options[:config_file] %><% else %>
 --env LC_ALL="en_US.UTF-8" \
 --env LANG="en_US.UTF-8" \
---socket <%= @options[:host] %>:<%= @options[:port] %> \
+--socket $SOCKET \
 --uid <%= @options[:uid] %> \
 --gid <%= @options[:gid] %> \
 --pidfile $PID \
