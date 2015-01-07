@@ -1,0 +1,20 @@
+/var/log/uwsgi/*log {
+    copytruncate
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+}
+
+/var/log/uwsgi/*log.1 {
+    copytruncate
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+}
+

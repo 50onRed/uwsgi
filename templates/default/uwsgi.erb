@@ -1,0 +1,155 @@
+#!/bin/bash
+#
+# uwsgi - This script starts and stops all configured uwsgi applications
+#
+# chkconfig: 234  85 15
+# description: uWSGI is a program to run applications adhering to the
+#              Web Server Gateway Interface.
+# processname: uwsgi
+# config:      /etc/sysconfig/uwsgi
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+UWSGI="/usr/bin/uwsgi"
+prog="$uwsgi"
+UWSGI_INI="/etc/uwsgi/uwsgi.ini"
+UWSGI_LOG_DIR="/var/log/uwsgi"
+PID_FILE="/opt/uwsgi/uwsgi.pid"
+
+runlevel=$(set -- $(runlevel); eval "echo \$$#" )
+
+start()
+{
+        echo -n "Starting UWSGI"
+        <% if node['uwsgi']['newrelic']=='true' -%>
+        export NEW_RELIC_CONFIG_FILE=/etc/uwsgi/newrelic.ini; nohup /app/bin/newrelic-admin run-program $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
+  	<% end -%>
+        <% if node['uwsgi']['newrelic']=='false' -%>
+	nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
+        <% end -%>
+        RETVAL=$?
+        PID=$!
+        [ $RETVAL -eq 0 ]
+        echo
+        echo $PID > ${PID_FILE}
+}
+
+stop()
+{
+        if [ ! -f "$PID_FILE" ]; then
+                # not running; per LSB standards this is "ok"
+                action $"Stopping $prog: " /bin/true
+                return 0
+        fi
+        PID=`cat "$PID_FILE"`
+        if [ -n "$PID" ]; then
+                /bin/kill "$PID" >/dev/null 2>&1
+                RETVAL=$?
+                if [ $RETVAL -eq 0 ]; then
+                        action $"Stopping $prog: " /bin/true
+                else
+                        action $"Stopping $prog: " /bin/false
+                fi
+        else
+                 # failed to read pidfile
+                action $"Stopping $prog: " /bin/false
+                RETVAL=4
+        fi
+        # if we are in halt or reboot runlevel kill all running sessions
+        # so the TCP connections are closed cleanly
+        if [ "x$runlevel" = x0 -o "x$runlevel" = x6 ] ; then
+            trap '' TERM
+            killall $prog 2>/dev/null
+            trap TERM
+        fi
+        [ $RETVAL -eq 0 ] && rm -f $lockfile
+        rm -f "$PID_FILE"
+        return $RETVAL
+}
+
+reload()
+{
+        echo -n $"Reloading $prog: "
+        if [ -n "`pidfileofproc $SSHD`" ] ; then
+            killproc $UWSGI -HUP
+        else
+            failure $"Reloading $prog"
+        fi
+        RETVAL=$?
+        echo
+}
+
+restart() {
+        stop
+        start
+}
+
+force_reload() {
+        restart
+}
+
+rh_status() {
+        status -p $PID_FILE openssh-daemon
+}
+
+rh_status_q() {
+        rh_status >/dev/null 2>&1
+}
+
+
+case "$1" in
+        start)
+                rh_status_q && exit 0
+                start
+                ;;
+        stop)
+                if ! rh_status_q; then
+                        rm -f $lockfile
+                        exit 0
+                fi
+                stop
+                ;;
+        restart)
+                restart
+                ;;
+        reload)
+                rh_status_q || exit 7
+                reload
+                ;;
+        force-reload)
+                force_reload
+                ;;
+        condrestart|try-restart)
+                rh_status_q || exit 0
+                if [ -f $lockfile ] ; then
+                        do_restart_sanity_check
+                        if [ $RETVAL -eq 0 ] ; then
+                                stop
+                                # avoid race
+                                sleep 3
+                                start
+                        else
+                                RETVAL=6
+                        fi
+                fi
+                ;;
+        status)
+                rh_status
+                RETVAL=$?
+                if [ $RETVAL -eq 3 -a -f $lockfile ] ; then
+                        RETVAL=2
+                fi
+                ;;
+        *)
+                echo $"Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|status}"
+                RETVAL=2
+esac
+exit $RETVAL
+
