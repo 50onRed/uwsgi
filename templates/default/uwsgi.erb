@@ -28,12 +28,11 @@ runlevel=$(set -- $(runlevel); eval "echo \$$#" )
 start()
 {
         echo -n "Starting UWSGI"
-        <% if node['uwsgi']['newrelic']=='true' -%>
-        export NEW_RELIC_CONFIG_FILE=/etc/uwsgi/newrelic.ini; nohup /app/bin/newrelic-admin run-program $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
-  	<% end -%>
-        <% if node['uwsgi']['newrelic']=='false' -%>
-	nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
-        <% end -%>
+        <% if node['uwsgi']['newrelic_enabled'] %>
+        export NEW_RELIC_CONFIG_FILE=/etc/uwsgi/newrelic.ini; nohup <%= @newrelicadmin %> run-program $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
+  	   <% else %>
+	    nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
+        <% end %>
         RETVAL=$?
         PID=$!
         [ $RETVAL -eq 0 ]

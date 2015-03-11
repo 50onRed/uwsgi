@@ -16,7 +16,7 @@
 # limitations under the License.
 
 template "/etc/init.d/uwsgi" do
-  source "newrelic_uwsgi.erb"
+  source "uwsgi.erb"
   mode 0755
   backup false
   owner "root"
