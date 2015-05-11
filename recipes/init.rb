@@ -15,19 +15,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-template "/etc/init.d/uwsgi" do
-  source "uwsgi.erb"
+template '/etc/init.d/uwsgi' do
+  source 'uwsgi.erb'
   mode 0755
   backup false
-  owner "root"
-  group "root"
-  variables({
+  owner 'root'
+  group 'root'
+  variables(
     :log_path => node['uwsgi']['log_path'],
     :config_path => node['uwsgi']['config_path']
-  })
+  )
 end
 
-service "uwsgi" do
-  supports :start => true, :stop => true, :restart => true, :reload => true 
+service 'uwsgi' do
+  supports :start => true, :stop => true, :restart => true, :reload => true
   action [:enable, :start]
 end

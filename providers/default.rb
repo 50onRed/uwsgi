@@ -21,6 +21,7 @@ action :enable do
   link config_name do
     to new_resource.name
   end
+  new_resource.updated_by_last_action(true)
 end
 
 action :disable do
@@ -29,6 +30,7 @@ action :disable do
     action :delete
     only_if "test -L #{config_name}"
   end
+  new_resource.updated_by_last_action(true)
 end
 
 def config_name

@@ -19,8 +19,8 @@
 
 UWSGI="/usr/bin/uwsgi"
 prog="$uwsgi"
-UWSGI_INI="/etc/uwsgi/uwsgi.ini"
-UWSGI_LOG_DIR="/var/log/uwsgi"
+UWSGI_INI="<%= @config_path %>/uwsgi.ini"
+UWSGI_LOG_DIR="<%= @log_path %>"
 PID_FILE="/opt/uwsgi/uwsgi.pid"
 
 runlevel=$(set -- $(runlevel); eval "echo \$$#" )
@@ -28,11 +28,7 @@ runlevel=$(set -- $(runlevel); eval "echo \$$#" )
 start()
 {
         echo -n "Starting UWSGI"
-        <% if node['uwsgi']['newrelic_enabled'] %>
-        export NEW_RELIC_CONFIG_FILE=/etc/uwsgi/newrelic.ini; nohup <%= @newrelicadmin %> run-program $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
-  	   <% else %>
-	    nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
-        <% end %>
+	nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
         RETVAL=$?
         PID=$!
         [ $RETVAL -eq 0 ]
@@ -151,4 +147,3 @@ case "$1" in
                 RETVAL=2
 esac
 exit $RETVAL
-

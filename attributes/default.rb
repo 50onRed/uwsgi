@@ -15,7 +15,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-default['uwsgi']['config_path'] = "/etc/uwsgi"
-default['uwsgi']['log_path'] = "/var/log/uwsgi.log"
+default['uwsgi']['version'] = '1.9.18.2'
+default['uwsgi']['install_method'] = 'pip'
+default['uwsgi']['pip_options'] = nil
+default['uwsgi']['config_path'] = '/etc/uwsgi'
+default['uwsgi']['log_path'] = '/var/log/uwsgi'
 default['uwsgi']['newrelic'] = 'true'

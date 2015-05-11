@@ -16,100 +16,84 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "python"
+include_recipe 'python'
 
 package 'pcre-devel'
+package 'libyaml'
 
-python_pip "setuptools" do
-  action :upgrade
-end
-
-#Create uwsgi user
-user "uwsgi" do
+# Create uwsgi user
+user 'uwsgi' do
   system true
   shell  '/bin/false'
 end
 
-directory "/var/log/uwsgi" do
- mode 0775
- owner "nobody"
- group "root"
+directory '/var/log/uwsgi' do
+  mode 0775
+  owner 'nobody'
+  group 'root'
 end
 
-directory "/etc/uwsgi" do
- mode 0755
- owner "root"
- group "root"
-end
-
-directory "/etc/uwsgi/conf" do
- mode 0755
- owner "root"
- group "root"
-end
-
-directory "/etc/uwsgi/siteconf" do
- mode 0755
- owner "root"
- group "root"
-end
-
-directory "/etc/uwsgi/appconf" do
- mode 0755
- owner "root"
- group "root"
-end
-
-
-directory "/etc/uwsgi/reload" do
- mode 0755
- owner "root"
- group "root"
-end
-
-directory "/opt/uwsgi" do
- mode 0755
- owner "nobody"
- group "nobody"
-end
-
-directory "/opt/uwsgi/stats" do
- mode 0755
- owner "nobody"
- group "nobody"
-end
-
-directory "/opt/uwsgi/tb" do
- mode 0755
- owner "nobody"
- group "nobody"
-end
-
-
-# Install the latest version with pip
-python_pip "uwsgi" do
-  version "1.9.18.2"
-  action :install
-end
-
-# Add the uwsgi config directory
 directory node['uwsgi']['config_path'] do
-  owner "root"
-  group "root"
   mode 0755
+  owner 'root'
+  group 'root'
 end
 
-link "/usr/bin/uwsgi" do
+directory "#{node['uwsgi']['config_path']}/conf" do
+  mode 0755
+  owner 'root'
+  group 'root'
+end
+
+directory "#{node['uwsgi']['config_path']}/siteconf" do
+  mode 0755
+  owner 'root'
+  group 'root'
+end
+
+directory "#{node['uwsgi']['config_path']}/appconf" do
+  mode 0755
+  owner 'root'
+  group 'root'
+end
+
+directory "#{node['uwsgi']['config_path']}/reload" do
+  mode 0755
+  owner 'root'
+  group 'root'
+end
+
+directory '/opt/uwsgi' do
+  mode 0755
+  owner 'nobody'
+  group 'nobody'
+end
+
+directory '/opt/uwsgi/stats' do
+  mode 0755
+  owner 'nobody'
+  group 'nobody'
+end
+
+directory '/opt/uwsgi/tb' do
+  mode 0755
+  owner 'nobody'
+  group 'nobody'
+end
+
+include_recipe "uwsgi::install_#{node['uwsgi']['install_method']}"
+
+link '/usr/bin/uwsgi' do
   to "#{node['python']['prefix_dir']}/bin/uwsgi"
 end
 
 # Add an upstart script
-include_recipe "uwsgi::init"
+include_recipe 'uwsgi::init'
 
-#Add log rotation
-template "/etc/logrotate.d/uwsgi" do
-  source "logrotate.erb"
+# Add log rotation
+template '/etc/logrotate.d/uwsgi' do
+  source 'logrotate.erb'
   mode 0644
-  owner "root"
-  group "root"
+  owner 'root'
+  group 'root'
 end

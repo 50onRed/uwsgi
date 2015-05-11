@@ -1,4 +1,4 @@
-define :uwsgi_service,
+define :uwsgi_service, # ~FC015
     :home_path => "/var/www/app",
     :pid_path => "/var/run/uwsgi-app.pid",
     :host => "127.0.0.1",
