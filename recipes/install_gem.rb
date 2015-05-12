@@ -1,3 +1,3 @@
-include_recipe "uwsgi::_common_install"
+include_recipe 'uwsgi::_common_install'
 
-gem_package "uwsgi"
+gem_package 'uwsgi'
