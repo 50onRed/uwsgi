@@ -28,6 +28,9 @@ runlevel=$(set -- $(runlevel); eval "echo \$$#" )
 start()
 {
         echo -n "Starting UWSGI"
+        if [ -e /etc/profile.d/scalr_globals.sh ]; then
+          source /etc/profile.d/scalr_globals.sh
+        fi
 	nohup $UWSGI --ini $UWSGI_INI >/dev/null 2>&1 &
         RETVAL=$?
         PID=$!
