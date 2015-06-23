@@ -18,7 +18,7 @@
 [ "$NETWORKING" = "no" ] && exit 0
 
 UWSGI="/usr/bin/uwsgi"
-prog="$uwsgi"
+prog="uwsgi"
 UWSGI_INI="<%= @config_path %>/uwsgi.ini"
 UWSGI_LOG_DIR="<%= @log_path %>"
 PID_FILE="/opt/uwsgi/uwsgi.pid"
@@ -27,7 +27,7 @@ runlevel=$(set -- $(runlevel); eval "echo \$$#" )
 
 start()
 {
-        echo -n "Starting UWSGI"
+        echo -n "Starting $prog"
         if [ -e /etc/profile.d/scalr_globals.sh ]; then
           source /etc/profile.d/scalr_globals.sh
         fi
@@ -66,6 +66,18 @@ stop()
             trap '' TERM
             killall $prog 2>/dev/null
             trap TERM
+        fi
+        # if we are in runlevel 3 and uwsgi has still running or orphaned
+        # processes, forcibly kill them to close all open files/sockets
+        if [[ `ps aux | grep -c "bin/uwsgi"` -gt 1 && "x$runlevel" = x3 ]]; then
+          echo "Waiting for $prog to stop"
+          sleep 5
+        fi
+        if [[ `ps aux | grep -c "bin/uwsgi"` -gt 1 && "x$runlevel" = x3 ]]; then
+          action "$prog still running and/or orphaned, forcibly terminating: " /bin/true
+          trap '' TERM
+          killall $prog 2>/dev/null
+          trap TERM
         fi
         [ $RETVAL -eq 0 ] && rm -f $lockfile
         rm -f "$PID_FILE"
