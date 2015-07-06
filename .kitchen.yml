@@ -20,8 +20,9 @@ suites:
       - recipe[test-helper]
       - recipe[nginx]
       - recipe[python]
-      - recipe[uwsgi]
+      - recipe[uwsgi::default]
       - recipe[python-deployment]
+      - recipe[uwsgi::init]
     attributes:
       python-deployment:
         application:
@@ -37,35 +38,6 @@ suites:
       python:
         version: 2.7.9-1.el6.gd
         install_method: custom-package
-    chef_client:
-      config:
-        log_level: ":debug"
-  - name: gem
-    run_list:
-      - recipe[yum-gd]
-      - recipe[build-essential]
-      - recipe[test-helper]
-      - recipe[nginx]
-      - recipe[python]
-      - recipe[uwsgi]
-      - recipe[python-deployment]
-    attributes:
-      python-deployment:
-        application:
-          name: appserv-feeds
-          settings: appserv_feeds.settings
-          dependencies:
-            - libmemcached-devel
-          version: latest
-          framework: django
-          repository: http://pypi.awsdev.usatoday.com
-          config_location: remote
-        uwsgi-application: true
-      python:
-        version: 2.7.9-1.el6.gd
-        install_method: custom-package
-      uwsgi:
-        install_method: "gem"
     chef_client:
       config:
         log_level: ":debug"
