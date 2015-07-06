@@ -3,6 +3,11 @@ uwsgi CHANGELOG
 
 This file is used to list changes made in each version of the uwsgi cookbook.
 
+0.2.2
+-----
+- Kris Vincent - Adding ServerSpec testing
+    - Integration testing uses python-deployment as the application for testing that uwsgi is correctly installed and running.
+
 0.2.1
 -----
 - Jason Neves - Added sanity checks to init script to ensure processes are terminated before starting a new process

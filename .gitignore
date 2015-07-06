@@ -1,5 +1,7 @@
 *.gem
 *.rbc
+*.lock
+.kitchen
 .bundle
 .config
 .chef
