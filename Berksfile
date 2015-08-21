@@ -4,5 +4,5 @@ metadata
 
 group :integration do
   cookbook 'python-deployment'
-  cookbook 'test-helper', path: 'test/fixtures/cookbooks/test-helper'
+  cookbook 'gd-test-helper'
 end
