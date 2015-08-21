@@ -17,7 +17,7 @@ suites:
     run_list:
       - recipe[yum-gd]
       - recipe[build-essential]
-      - recipe[test-helper]
+      - recipe[gd-test-helper]
       - recipe[nginx]
       - recipe[python]
       - recipe[uwsgi::default]

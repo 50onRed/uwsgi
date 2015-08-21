@@ -3,6 +3,10 @@ uwsgi CHANGELOG
 
 This file is used to list changes made in each version of the uwsgi cookbook.
 
+0.2.4
+-----
+- Kris Vincent - Replace local test-helper cookbook with gd-test-helper from supermarket.
+
 0.2.3
 -----
 - Kris Vincent - Removing Gem Installation Support
