@@ -3,6 +3,11 @@ uwsgi CHANGELOG
 
 This file is used to list changes made in each version of the uwsgi cookbook.
 
+0.2.3
+-----
+- Fix bug in init script expecting extra parameter because of syntax
+
+
 0.2.2
 -----
 - Kris Vincent - Adding ServerSpec testing
