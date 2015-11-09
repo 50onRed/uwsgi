@@ -3,6 +3,11 @@ uwsgi CHANGELOG
 
 This file is used to list changes made in each version of the uwsgi cookbook.
 
+0.2.5
+-----
+- Brian Lieberman - change syntax in init script to fix bug with retrieving uwsgi status
+
+
 0.2.4
 -----
 - Kris Vincent - Replace local test-helper cookbook with gd-test-helper from supermarket.
