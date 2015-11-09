@@ -1,0 +1,43 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  chef_zero_port: 9010
+
+platforms:
+  - name: centos-6.6
+    driver:
+      network:
+      - ["private_network", {ip: "33.33.33.25"}]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[yum-gd]
+      - recipe[build-essential]
+      - recipe[test-helper]
+      - recipe[nginx]
+      - recipe[python]
+      - recipe[uwsgi::default]
+      - recipe[python-deployment]
+      - recipe[uwsgi::init]
+    attributes:
+      python-deployment:
+        application:
+          name: appserv-feeds
+          settings: appserv_feeds.settings
+          dependencies:
+            - libmemcached-devel
+          version: latest
+          framework: django
+          repository: http://pypi.awsdev.usatoday.com
+          config_location: remote
+        uwsgi-application: true
+      python:
+        version: 2.7.9-1.el6.gd
+        install_method: custom-package
+    chef_client:
+      config:
+        log_level: ":debug"

@@ -1,4 +1,4 @@
-define :uwsgi_service,
+define :uwsgi_service, # ~FC015
     :home_path => "/var/www/app",
     :pid_path => "/var/run/uwsgi-app.pid",
     :host => "127.0.0.1",
@@ -21,9 +21,7 @@ define :uwsgi_service,
     :enable_threads => false,
     :buffer_size => nil,
     :config_file => nil,
-    :config_type => :ini,
-    :uwsgi_bin => '/usr/local/bin/uwsgi',
-    :start_immediately => true do
+    :config_type => :ini do
   include_recipe "runit"
 
   # need to assign params to local vars as we can't pass params to nested definitions
@@ -37,7 +35,6 @@ define :uwsgi_service,
   gid = params[:gid]
   config_file = params[:config_file]
   config_type = params[:config_type]
-  start_immediately = params[:start_immediately]
   extra_params = ""
   extra_params += " --master" if params[:master]
   extra_params += " --lazy" if params[:lazy]
@@ -52,13 +49,11 @@ define :uwsgi_service,
   extra_params += " --stats %s" % [params[:stats]] if params[:stats]
   extra_params += " --emperor %s" % [params[:emperor]] if params[:emperor]
   extra_params += " --buffer-size %s" % [params[:buffer_size]] if params[:buffer_size]
-  uwsgi_bin = params[:uwsgi_bin]
 
   runit_service "uwsgi-#{params[:name]}" do
     run_template_name "uwsgi"
     log_template_name "uwsgi"
     cookbook "uwsgi"
-    restart_on_update start_immediately
     options ({
       :home_path => home_path,
       :pid_path => pid_path,
@@ -69,7 +64,6 @@ define :uwsgi_service,
       :uid => uid,
       :gid => gid,
       :extra_params => extra_params,
-      :uwsgi_bin => uwsgi_bin,
       :config_file => config_file,
       :config_type => config_type
     })

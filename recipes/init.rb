@@ -1,8 +1,7 @@
 #
 # Cookbook Name:: uwsgi
-# Provider:: default
+# Recipe:: init
 #
-# Copyright:: Copyright (c) 2013, Damon Jablons
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,23 +15,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-action :enable do
-  # Create the symlink in the config path
-  link config_name do
-    to new_resource.name
-  end
-  new_resource.updated_by_last_action(true)
+template '/etc/init.d/uwsgi' do
+  source 'uwsgi.erb'
+  mode 0755
+  backup false
+  owner 'root'
+  group 'root'
+  variables(
+    :log_path => node['uwsgi']['log_path'],
+    :config_path => node['uwsgi']['config_path']
+  )
 end
 
-action :disable do
-  # Remove the symlink from the config path
-  link config_name do
-    action :delete
-    only_if "test -L #{config_name}"
-  end
-  new_resource.updated_by_last_action(true)
-end
-
-def config_name
-  ::File.join(node['uwsgi']['config_path'], new_resource.name.split('/').last)
+service 'uwsgi' do
+  supports :start => true, :stop => true, :restart => true, :reload => true
+  action [:enable, :start]
 end
