@@ -3,6 +3,10 @@ uwsgi CHANGELOG
 
 This file is used to list changes made in each version of the uwsgi cookbook.
 
+0.2.6
+-----
+- Brian Lieberman - switch openssh-daemon to uwsgi
+
 0.2.5
 -----
 - Brian Lieberman - change syntax in init script to fix bug with retrieving uwsgi status
