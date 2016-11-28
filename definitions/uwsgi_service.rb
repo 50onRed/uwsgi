@@ -3,6 +3,7 @@ define :uwsgi_service,
     :pid_path => "/var/run/uwsgi-app.pid",
     :host => "127.0.0.1",
     :port => 8080,
+    :socket => nil,
     :worker_processes => 2,
     :app => "main:app",
     :uid => "www-data",
@@ -29,8 +30,7 @@ define :uwsgi_service,
   # need to assign params to local vars as we can't pass params to nested definitions
   home_path = params[:home_path]
   pid_path = params[:pid_path]
-  host = params[:host]
-  port = params[:port]
+  socket = params[:socket] || "#{params[:host]}:#{params[:port]}"
   worker_processes = params[:worker_processes]
   app = params[:app]
   uid = params[:uid]
@@ -62,8 +62,7 @@ define :uwsgi_service,
     options ({
       :home_path => home_path,
       :pid_path => pid_path,
-      :host => host,
-      :port => port,
+      :socket => socket,
       :worker_processes => worker_processes,
       :app => app,
       :uid => uid,
