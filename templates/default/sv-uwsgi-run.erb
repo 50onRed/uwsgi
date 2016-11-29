@@ -3,7 +3,7 @@
 UWSGI=<%= @options[:uwsgi_bin] %>
 ROOT=<%= @options[:home_path] %>
 PID=<%= @options[:pid_path] %>
-SOCKET=<%= @options[:host] %>:<%= @options[:port] %>
+SOCKET=<%= @options[:socket] %>
 
 if [ -f $PID ]; then kill -9 `cat $PID`; rm $PID; fi
 
