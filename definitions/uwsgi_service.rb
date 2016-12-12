@@ -24,7 +24,8 @@ define :uwsgi_service,
     :config_file => nil,
     :config_type => :ini,
     :uwsgi_bin => '/usr/local/bin/uwsgi',
-    :start_immediately => true do
+    :start_immediately => true,
+    :virtualenv => nil do
   include_recipe "runit"
 
   # need to assign params to local vars as we can't pass params to nested definitions
@@ -52,6 +53,7 @@ define :uwsgi_service,
   extra_params += " --stats %s" % [params[:stats]] if params[:stats]
   extra_params += " --emperor %s" % [params[:emperor]] if params[:emperor]
   extra_params += " --buffer-size %s" % [params[:buffer_size]] if params[:buffer_size]
+  extra_params += " --virtualenv %s" % [params[:virtualenv]] if params[:virtualenv]
   uwsgi_bin = params[:uwsgi_bin]
 
   runit_service "uwsgi-#{params[:name]}" do
